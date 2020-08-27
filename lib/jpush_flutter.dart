@@ -24,6 +24,7 @@ class JPush {
   EventHandler _onOpenNotification;
   EventHandler _onReceiveMessage;
   EventHandler _onReceiveNotificationAuthorization;
+  EventHandler _onGetDeviceToken;
 
   void setup({
     String appKey,
@@ -49,6 +50,7 @@ class JPush {
     EventHandler onOpenNotification,
     EventHandler onReceiveMessage,
     EventHandler onReceiveNotificationAuthorization,
+    EventHandler onGetDeviceToken,
   }) {
     print(flutter_log + "addEventHandler:");
 
@@ -56,6 +58,7 @@ class JPush {
     _onOpenNotification = onOpenNotification;
     _onReceiveMessage = onReceiveMessage;
     _onReceiveNotificationAuthorization = onReceiveNotificationAuthorization;
+    _onGetDeviceToken = onGetDeviceToken;
     _channel.setMethodCallHandler(_handleMethod);
   }
 
@@ -71,6 +74,8 @@ class JPush {
         return _onReceiveMessage(call.arguments.cast<String, dynamic>());
       case "onReceiveNotificationAuthorization":
         return _onReceiveNotificationAuthorization(call.arguments.cast<String, dynamic>());
+      case "onGetDeviceToken":
+        return _onGetDeviceToken(call.arguments.cast<String, dynamic>());
       default:
         throw new UnsupportedError("Unrecognized Event");
     }
